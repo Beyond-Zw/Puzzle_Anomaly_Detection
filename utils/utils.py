@@ -34,33 +34,35 @@ def fgsm_attack(inputs, model, eps=0.1, alpha=2):
     return adv_inputs
 
 
-def show_process_for_trainortest(input_img, recons_img, puzzled_img=None):
+def show_process_for_trainortest(input_img, recons_img, puzzled_img=None, path="./"):
     if input_img.shape[0] > 15:
         n = 15
     else:
         n = input_img.shape[0]
 
-    print("Inputs:")
-    show(np.transpose(input_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)))
-    print("Puzzle Input:")
-    show(np.transpose(puzzled_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)))
-    print("Reconstructions:")
-    show(np.transpose(recons_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)))
+    channel = input_img.shape[1]
+
+    # print("Inputs:")
+    show(np.transpose(input_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel, path=path + "_input.png")
+    # print("Puzzle Input:")
+    show(np.transpose(puzzled_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel, path=path + "_puzzle_input.png")
+    # print("Reconstructions:")
+    show(np.transpose(recons_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel, path=path + "_reconstruction.png")
 
 
-def show(image_batch, rows=1):
+def show(image_batch, rows=1, channel=3, path="./test.png"):
     # Set Plot dimensions
     cols = np.ceil(image_batch.shape[0] / rows)
     plt.rcParams['figure.figsize'] = (0.0 + cols, 0.0 + rows)  # set default size of plots
 
     for i in range(image_batch.shape[0]):
         plt.subplot(rows, cols, i + 1)
-        if (channel != 1):
+        if channel != 1:
             plt.imshow(image_batch[i])
         else:
             plt.imshow(image_batch[i].reshape(image_batch.shape[-2], image_batch.shape[-2]), cmap='gray')
         plt.axis('off')
-    plt.show()
+    plt.savefig(path)
 
 
 def split_tensor(tensor, tile_size=14, offset=14):

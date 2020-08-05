@@ -41,6 +41,11 @@ class Encoder(nn.Module):
                         nn.LeakyReLU(0.2, inplace=True))
         csize, cndf = isize / 2, ndf
 
+        if isize == 28:
+            self.last_layer_conv = 3
+        else:
+            self.last_layer_conv = 4
+
         # Extra layers
         for t in range(n_extra_layers):
             main.add_module('extra-layers-{0}-{1}-conv'.format(t, cndf),
@@ -65,7 +70,7 @@ class Encoder(nn.Module):
         # state size. K x 4 x 4
         if add_final_conv:
             main.add_module('final-{0}-{1}-conv'.format(cndf, 1),
-                            nn.Conv2d(cndf, nz, 3, 1, 0, bias=False))
+                            nn.Conv2d(cndf, nz, self.last_layer_conv, 1, 0, bias=False))
 
         self.main = main
 

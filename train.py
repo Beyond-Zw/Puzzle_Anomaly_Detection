@@ -3,6 +3,7 @@ from random import randrange
 from models.Discriminator import *
 from test import *
 from dataloader import *
+from pathlib import Path
 
 parser = ArgumentParser()
 parser.add_argument('--config', type=str, default='configs/config_train.yaml', help="training configuration")
@@ -13,8 +14,14 @@ def main():
     config = get_config(args.config)
 
     n_channel = config['n_channel']
-    checkpoint_path = config['checkpoint_path']
     normal_class = config["normal_class"]
+
+    checkpoint_path = "outputs/{}/{}/checkpoints/".format(config['dataset_name'], normal_class)
+    train_output_path = "outputs/{}/{}/train_outputs/".format(config['dataset_name'], normal_class)
+
+    # create directory
+    Path(checkpoint_path).mkdir(parents=True, exist_ok=True)
+    Path(train_output_path).mkdir(parents=True, exist_ok=True)
 
     train_dataloader, _, _ = load_data(config)
 
@@ -55,12 +62,12 @@ def main():
             orig_img = img
 
             partitioned_img, base = split_tensor(img, tile_size=img.size(2) // 2, offset=img.size(2) // 2)
-            initial_perm = get_random_permutation()
+            perm = get_random_permutation()
 
-            extended_perm = initial_perm * img.size(1)
+            extended_perm = perm * img.size(1)
             if img.size(1) == 3:
-                m = torch.tensor([[0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2]])
-                final_perm = m + extended_perm[:, None]
+                offset = torch.tensor([[0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2]])
+                final_perm = offset + extended_perm[:, None]
                 final_perm = final_perm.view(-1)
             else:
                 final_perm = extended_perm
@@ -127,21 +134,21 @@ def main():
         print('epoch [{}/{}], epoch_total_loss:{:.4f}, epoch_ae_loss:{:.4f}, err_adv:{:.4f}'
               .format(epoch + 1, num_epochs, epoch_total_loss, epoch_ae_loss, err_g_adv))
 
-        with open(checkpoint_path + '/log_{}.txt'.format(normal_class), "a") as log_file:
+        with open(checkpoint_path + 'log_{}.txt'.format(normal_class), "a") as log_file:
             log_file.write('\n epoch [{}/{}], loss:{:.4f}, epoch_ae_loss:{:.4f}, err_adv:{:.4f}'
                            .format(epoch + 1, num_epochs, epoch_total_loss, epoch_ae_loss, err_g_adv))
 
         if epoch % 50 == 0:
-            show_process_for_trainortest(img, output, orig_img)
+            show_process_for_trainortest(img, output, orig_img, train_output_path + str(epoch))
             epoch_loss_dict[epoch] = epoch_total_loss
 
-            torch.save(unet.state_dict(), checkpoint_path + '/{}.pth'.format(normal_class))
-            torch.save(discriminator.state_dict(), checkpoint_path + '/netd_{}.pth'.format(normal_class))
+            torch.save(unet.state_dict(), checkpoint_path + '{}.pth'.format(str(epoch)))
+            torch.save(discriminator.state_dict(), checkpoint_path + 'netd_{}.pth'.format(str(epoch)))
 
-            torch.save(optimizer_u.state_dict(), checkpoint_path + '/opt_{}.pth'.format(normal_class))
-            torch.save(optimizer_d.state_dict(), checkpoint_path + '/optd_{}.pth'.format(normal_class))
+            torch.save(optimizer_u.state_dict(), checkpoint_path + 'opt_{}.pth'.format(str(epoch)))
+            torch.save(optimizer_d.state_dict(), checkpoint_path + 'optd_{}.pth'.format(str(epoch)))
 
-            torch.save(scheduler.state_dict(), checkpoint_path + '/scheduler_{}.pth'.format(normal_class))
+            torch.save(scheduler.state_dict(), checkpoint_path + 'scheduler_{}.pth'.format(str(epoch)))
 
 
 if __name__ == '__main__':

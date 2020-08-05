@@ -1,8 +1,6 @@
-
 # data parameters
 dataset_name: mnist
 train_data_path: dataset/capsule/train/
-checkpoint_path: checkpoints/capsule/hole_benchmark
 n_channel: 1
 image_size: 28  # {MNIST, Fashion-MNIST}:28, CIFAR10: 32, {COIL100, MVTec, Medical}:128
 normal_class: 0

@@ -42,15 +42,15 @@ def test(model, normal_class, perm_list, perm_cost, test_dataloader):
         idx = 0
         num_perm = len(perm_list)
         for perm in perm_list:
-            s = perm * inputs.size(1)
+            extended_perm = perm * inputs.size(1)
             if inputs.size(1) == 3:
-                m = torch.tensor([[0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2]])
-                p = m + s[:, None]
-                p = p.view(-1)
+                offset = torch.tensor([[0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2]])
+                final_perm = offset + extended_perm[:, None]
+                final_perm = final_perm.view(-1)
             else:
-                p = s
+                final_perm = extended_perm
 
-            permuted_img = partitioned_img[:, p, :, :]
+            permuted_img = partitioned_img[:, final_perm, :, :]
             permuted_img = rebuild_tensor(permuted_img, base, tile_size=inputs.size(2) // 2, offset=inputs.size(2) // 2)
             img = Variable(permuted_img).cuda()
             outputs = model(img)
@@ -111,14 +111,14 @@ def get_avg_val_error_per_permutation(model, permutation_list, val_dataloader):
             target = Variable(target).cuda()
             partitioned_img, base = split_tensor(inputs, tile_size=inputs.size(2) // 2, offset=inputs.size(2) // 2)
 
-            s = perm * inputs.size(1)
+            extended_perm = perm * inputs.size(1)
             if inputs.size(1) == 3:
-                m = torch.tensor([[0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2]])
-                p = m + s[:, None]
-                p = p.view(-1)
+                offset = torch.tensor([[0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2]])
+                final_perm = offset + extended_perm[:, None]
+                final_perm = final_perm.view(-1)
             else:
-                p = s
-            permuted_img = partitioned_img[:, p, :, :]
+                final_perm = extended_perm
+            permuted_img = partitioned_img[:, final_perm, :, :]
 
             permuted_img = rebuild_tensor(permuted_img, base, tile_size=inputs.size(2) // 2, offset=inputs.size(2) // 2)
             img = Variable(permuted_img).cuda()
