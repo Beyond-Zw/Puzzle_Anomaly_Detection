@@ -83,12 +83,9 @@ class NetD(nn.Module):
     DISCRIMINATOR NETWORK
     """
 
-    def __init__(self, config):
+    def __init__(self, img_size, n_channels, n_extra_layers):
         super(NetD, self).__init__()
         ngf = 64
-        img_size = config['img_size']
-        n_channels = config['n_channels']
-        n_extra_layers = config['n_extra_layers']
         ngpu = 1
 
         model = Encoder(img_size, 1, n_channels, ngf, ngpu, n_extra_layers)

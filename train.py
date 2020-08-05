@@ -18,13 +18,13 @@ def main():
 
     train_dataloader, _, _ = load_data(config)
 
-    unet = UNet(n_channel, n_channel).cuda()
-    discriminator = NetD().cuda()
+    unet = UNet(n_channel, n_channel, config['base_channel']).cuda()
+    discriminator = NetD(config['img_size'], n_channel, config['n_extra_layers']).cuda()
     discriminator.apply(weights_init)
 
     criterion = nn.MSELoss()
     optimizer_u = torch.optim.Adam(
-        unet.parameters(), lr=config['lr_u'], weight_decay=config['weight_decay'])
+        unet.parameters(), lr=config['lr_u'], weight_decay=float(config['weight_decay']))
 
     optimizer_d = torch.optim.Adam(
         discriminator.parameters(), lr=config['lr_d'], betas=(config['beta1'], config['beta2']))
@@ -111,7 +111,6 @@ def main():
             log_file.write('\n epoch [{}/{}], loss:{:.4f}, epoch_ae_loss:{:.4f}, err_adv:{:.4f}'
                            .format(epoch + 1, num_epochs, epoch_total_loss, epoch_ae_loss, err_g_adv))
 
-
         if epoch % 50 == 0:
             show_process_for_trainortest(img, output, orig_img)
             epoch_loss_dict[epoch] = epoch_total_loss
@@ -123,3 +122,7 @@ def main():
             torch.save(optimizer_d.state_dict(), checkpoint_path + '/optd_{}.pth'.format(normal_class))
 
             torch.save(scheduler.state_dict(), checkpoint_path + '/scheduler_{}.pth'.format(normal_class))
+
+
+if __name__ == '__main__':
+    main()

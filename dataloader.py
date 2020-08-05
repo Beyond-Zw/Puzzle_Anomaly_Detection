@@ -10,7 +10,7 @@ from torchvision.datasets import ImageFolder
 def load_data(config):
     normal_class = config['normal_class']
     batch_size = config['batch_size']
-    img_size = config['img_size']
+    img_size = config['image_size']
 
     if config['dataset_name'] in ['cifar10']:
         img_transform = transforms.Compose([
