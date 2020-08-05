@@ -14,7 +14,6 @@ def get_config(config):
 
 
 def fgsm_attack(inputs, model, eps=0.1, alpha=2):
-
     distribution = uniform.Uniform(torch.Tensor([-eps]), torch.Tensor([eps]))
     delta = distribution.sample(inputs.shape)
     delta = torch.squeeze(delta).reshape(-1, inputs.size(1), inputs.size(2), inputs.size(3))
@@ -98,6 +97,7 @@ def get_random_permutation():
         perm = torch.randperm(4)
         if perm.tolist() != [0, 1, 2, 3]:
             return perm
+
 
 def get_all_permutations():
     # Get all permutations of 4 partitions

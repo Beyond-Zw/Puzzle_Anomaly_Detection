@@ -19,7 +19,7 @@ def main():
     train_dataloader, _, _ = load_data(config)
 
     unet = UNet(n_channel, n_channel, config['base_channel']).cuda()
-    discriminator = NetD(config['img_size'], n_channel, config['n_extra_layers']).cuda()
+    discriminator = NetD(config['image_size'], n_channel, config['n_extra_layers']).cuda()
     discriminator.apply(weights_init)
 
     criterion = nn.MSELoss()
@@ -55,9 +55,29 @@ def main():
             orig_img = img
 
             partitioned_img, base = split_tensor(img, tile_size=img.size(2) // 2, offset=img.size(2) // 2)
-            perm = get_random_permutation()
-            permuted_img = partitioned_img[:, perm, :, :]
-            permuted_img[:, rand_number, :, :] *= 0
+            initial_perm = get_random_permutation()
+
+            extended_perm = initial_perm * img.size(1)
+            if img.size(1) == 3:
+                m = torch.tensor([[0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2]])
+                final_perm = m + extended_perm[:, None]
+                final_perm = final_perm.view(-1)
+            else:
+                final_perm = extended_perm
+
+            permuted_img = partitioned_img[:, final_perm, :, :]
+
+            if img.size(1) == 3:
+                avg = permuted_img[:, rand_number * 3, :, :] + permuted_img[:, rand_number * 3 + 1, :, :] + \
+                      permuted_img[:, rand_number * 3 + 2, :, :]
+
+                avg /= 3
+                permuted_img[:, rand_number * 3, :, :] = avg
+                permuted_img[:, rand_number * 3 + 1, :, :] = avg
+                permuted_img[:, rand_number * 3 + 2, :, :] = avg
+            else:
+                permuted_img[:, rand_number, :, :] *= 0
+
             target = orig_img
             permuted_img = rebuild_tensor(permuted_img, base, tile_size=img.size(2) // 2, offset=img.size(2) // 2)
 
