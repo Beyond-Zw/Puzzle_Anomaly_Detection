@@ -1,4 +1,3 @@
-
 # data parameters
 dataset_name: mnist
 test_data_path: dataset/capsule/train/

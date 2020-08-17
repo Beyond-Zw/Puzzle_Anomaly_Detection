@@ -11,6 +11,8 @@ __pycache__/
 .Python
 .idea/
 venv/
+train/
+test/
 temp_data/
 build/
 develop-eggs/

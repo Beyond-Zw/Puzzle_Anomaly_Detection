@@ -150,9 +150,3 @@ def main():
     perm_cost = get_avg_val_error_per_permutation(model, permutation_list, val_dataloader)
     auc_dict = test(model, normal_class, permutation_list, perm_cost, test_dataloader)
     print(auc_dict)
-
-
-
-
-
-
