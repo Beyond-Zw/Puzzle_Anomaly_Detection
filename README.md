@@ -1,5 +1,7 @@
 # Puzzle-AE: Novelty Detection In Images Through Solving Puzzles
 
+This repository contains code for training and evaluating the proposed method in our paper [Puzzle-AE: Novelty Detection in Images through Solving Puzzles](https://arxiv.org/abs/2003.05669). Some pretrained models for different datasets are also available.
+
 <img src="Images/Method.png" alt="hi" class="inline"/>
 
 ### 1- Clone This Repo:
