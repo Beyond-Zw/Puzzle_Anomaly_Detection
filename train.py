@@ -23,6 +23,9 @@ def main():
     Path(checkpoint_path).mkdir(parents=True, exist_ok=True)
     Path(train_output_path).mkdir(parents=True, exist_ok=True)
 
+    epsilon = float(config['eps'])
+    alpha = float(config['alpha'])
+
     train_dataloader, _, _ = load_data(config)
 
     unet = UNet(n_channel, n_channel, config['base_channel']).cuda()
@@ -51,7 +54,7 @@ def main():
     unet.train()
     discriminator.train()
 
-    for epoch in range(num_epochs):
+    for epoch in range(num_epochs + 1):
 
         epoch_ae_loss = 0
         epoch_total_loss = 0
@@ -88,7 +91,7 @@ def main():
             target = orig_img
             permuted_img = rebuild_tensor(permuted_img, base, tile_size=img.size(2) // 2, offset=img.size(2) // 2)
 
-            permuted_img = fgsm_attack(permuted_img, unet)
+            permuted_img = fgsm_attack(permuted_img, unet, eps=epsilon, alpha=alpha)
 
             img = Variable(permuted_img).cuda()
             target = Variable(target).cuda()
