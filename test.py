@@ -30,7 +30,8 @@ def test(model, normal_class, perm_list, perm_cost, test_dataloader):
 
     model.eval()
 
-    for data in test_dataloader:
+    for ind, data in enumerate(test_dataloader):
+        print('{}/10000'.format(ind * test_dataloader.batch_size))
         inputs, labels = data
         target = inputs
         target = Variable(target).cuda()
@@ -102,7 +103,7 @@ def test(model, normal_class, perm_list, perm_cost, test_dataloader):
 def get_avg_val_error_per_permutation(model, permutation_list, val_dataloader):
     permutation_cost = []
 
-    for perm in permutation_list:
+    for ind, perm in enumerate(permutation_list):
         avg_score = 0
         for data in val_dataloader:
             inputs = data[0]
@@ -136,17 +137,26 @@ def main():
     args = parser.parse_args()
     config = get_config(args.config)
 
-    checkpoint_path = config["checkpoint_path"]
+    # checkpoint_path = config["checkpoint_path"]
+    # n_channel = config['n_channel']
+    # normal_class = config['normal_class']
+
     n_channel = config['n_channel']
-    normal_class = config['normal_class']
+    normal_class = config["normal_class"]
+
+    checkpoint_path = "outputs/{}/{}/checkpoints/".format(config['dataset_name'], normal_class)
 
     _, val_dataloader, test_dataloader = load_data(config)
 
     model = UNet(n_channel, n_channel).cuda()
-    model.load_state_dict(torch.load(checkpoint_path + '/{}.pth'.format(normal_class)))
+    model.load_state_dict(torch.load(checkpoint_path + '{}.pth'.format(str(config['last_epoch']))))
 
     permutation_list = get_all_permutations()
 
     perm_cost = get_avg_val_error_per_permutation(model, permutation_list, val_dataloader)
     auc_dict = test(model, normal_class, permutation_list, perm_cost, test_dataloader)
     print(auc_dict)
+
+
+if __name__ == '__main__':
+    main()
