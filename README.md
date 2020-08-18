@@ -22,4 +22,7 @@ python train.py --config configs/config_train.yaml
 ```
 
 ### 5- Test the Trained Model:
-
+You can specify path to the trained model and path to the test data in `configs/config_test.yaml`.
+``` bash
+python test.py --config configs/config_test.yaml
+```
