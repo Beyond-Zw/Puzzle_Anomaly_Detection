@@ -43,11 +43,13 @@ def show_process_for_trainortest(input_img, recons_img, puzzled_img=None, path="
     channel = input_img.shape[1]
 
     # print("Inputs:")
-    show(np.transpose(input_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel, path=path + "_input.png")
+    show(np.transpose(input_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel=channel, path=path + "_input.png")
     # print("Puzzle Input:")
-    show(np.transpose(puzzled_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel, path=path + "_puzzle_input.png")
+    show(np.transpose(puzzled_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel=channel,
+         path=path + "_puzzle_input.png")
     # print("Reconstructions:")
-    show(np.transpose(recons_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel, path=path + "_reconstruction.png")
+    show(np.transpose(recons_img[0:n].cpu().detach().numpy(), (0, 2, 3, 1)), channel=channel,
+         path=path + "_reconstruction.png")
 
 
 def show(image_batch, rows=1, channel=3, path="./test.png"):

@@ -1,7 +1,5 @@
 # data parameters
 dataset_name: cifar10
-#test_data_path: dataset/capsule/train/
-#checkpoint_path: checkpoints/capsule/hole_benchmark
 n_channel: 3
 image_size: 32  # {mnist, fashionmnist}:28, cifar10: 32, {coil100, MVTec, Medical}:128
 normal_class: 1

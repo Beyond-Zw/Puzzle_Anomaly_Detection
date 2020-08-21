@@ -141,7 +141,7 @@ def main():
             log_file.write('\n epoch [{}/{}], loss:{:.4f}, epoch_ae_loss:{:.4f}, err_adv:{:.4f}'
                            .format(epoch + 1, num_epochs, epoch_total_loss, epoch_ae_loss, err_g_adv))
 
-        if epoch % 50 == 0:
+        if epoch % 500 == 0:
             show_process_for_trainortest(img, output, orig_img, train_output_path + str(epoch))
             epoch_loss_dict[epoch] = epoch_total_loss
 
