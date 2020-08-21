@@ -22,12 +22,12 @@ beta1: 0.5
 beta2: 0.999
 
 # Learning_rate Scheduler
-factor: 0.8   # 0.5 for MNIST
-patience: 50  # 30 for MNIST
+factor: 0.8   # mnist: 0.5, {fashionmnist, cifar10, coil100, MVTec, Medical}: 0.8
+patience: 50  # mnist: 30, {fashionmnist, cifar10, coil100, MVTec, Medical}: 50
 
 
 # FGSM Attack
-eps: 10/255    # MNIST:0.1, {Fashion-MNIST, Medical}:0.07, {CIFAR10, COIL100}:10/255, MVTec:0.01
+eps: 0.0392    # MNIST:0.1, {Fashion-MNIST, Medical}:0.07, {CIFAR10, COIL100}:10/255=0.0392, MVTec:0.01
 alpha: 2
 
 # Adversarial Loss
