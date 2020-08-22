@@ -19,6 +19,7 @@ We provide some of our pretrained models for various datasets. They can be downl
 
 ### 4- Train the Model:
 Start the training using the following command. The checkpoints will be saved in the folder `outputs/{dataset_name}/{normal_class}/checkpoints`.
+
 Train parameters such as dataset_name, normal_class, batch_size and etc. can be specified in `configs/config_train.yaml`.
 ``` bash
 python train.py --config configs/config_train.yaml
