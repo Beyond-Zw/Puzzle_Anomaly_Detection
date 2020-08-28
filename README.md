@@ -4,7 +4,7 @@ This repository contains code for training and evaluating the proposed method in
 
 <img src="Images/Method.png" alt="hi" class="inline"/>
 
-### 1- Clone This Repo:
+### 1- Clone this repo:
 ``` bash
 git clone https://github.com/Niousha12/Puzzle_Anomaly_Detection.git
 cd Puzzle_Anomaly_Detection
