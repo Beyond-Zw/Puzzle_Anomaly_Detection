@@ -12,7 +12,7 @@ cd Puzzle_Anomaly_Detection
 ### 2- Datsets:
 This repository performs Novelty/Anomaly Detection in the following datasets: MNIST, Fashion-MNIST, CIFAR-10, COIL-100, MVTec AD, and 2 medical datasets (Head CT (hemorrhage) and Brain MRI Images for Brain Tumor Detection).
 
-Datasets MNIST, Fashion-MNIST, CIFAR-10, and COIL-100 will be downloaded by Torchvision. You have to download [MVTec AD](https://www.mvtec.com/company/research/datasets/mvtec-ad/), [Head CT (hemorrhage)](https://drive.google.com/drive/folders/1AO2Vd29e6N1eC6dqT8OKYy7QwFa19xsu?usp=sharing), and [Brain MRI Images for Brain Tumor Detection](https://drive.google.com/drive/folders/1c2YkU3uAfAcmdbkdIKdg6veftXyMmOmE?usp=sharing), and unpack them into the `Dataset` folder.
+Datasets MNIST, Fashion-MNIST, CIFAR-10, and COIL-100 will be downloaded by Torchvision. You have to download [MVTec AD](https://www.mvtec.com/company/research/datasets/mvtec-ad/), [Head CT (hemorrhage)](http://www.kaggle.com/felipekitamura/head-ct-hemorrhage), and [Brain MRI Images for Brain Tumor Detection](http://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection), and unpack them into the `Dataset` folder.
 
 ### 3- Pretrained Models:
 We provide some of our pretrained models for various datasets. They can be downloaded from here. Please unpack them into the `outputs/{dataset_name}/{normal_class}/checkpoints` folder.
