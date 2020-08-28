@@ -14,10 +14,8 @@ This repository performs Novelty/Anomaly Detection in the following datasets: MN
 
 Datasets MNIST, Fashion-MNIST, CIFAR-10, and COIL-100 will be downloaded by Torchvision. You have to download [MVTec AD](https://www.mvtec.com/company/research/datasets/mvtec-ad/), [Head CT (hemorrhage)](http://www.kaggle.com/felipekitamura/head-ct-hemorrhage), and [Brain MRI Images for Brain Tumor Detection](http://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection), and unpack them into the `Dataset` folder.
 
-### 3- Pretrained Models:
-We provide some of our pretrained models for various datasets. They can be downloaded from here. Please unpack them into the `outputs/{dataset_name}/{normal_class}/checkpoints` folder.
 
-### 4- Train the Model:
+### 3- Train the Model:
 Start the training using the following command. The checkpoints will be saved in the folder `outputs/{dataset_name}/{normal_class}/checkpoints`.
 
 Train parameters such as dataset_name, normal_class, batch_size and etc. can be specified in `configs/config_train.yaml`.
@@ -25,7 +23,7 @@ Train parameters such as dataset_name, normal_class, batch_size and etc. can be 
 python train.py --config configs/config_train.yaml
 ```
 
-### 5- Test the Trained Model:
+### 4- Test the Trained Model:
 Test parameters can be specified in `configs/config_test.yaml`.
 ``` bash
 python test.py --config configs/config_test.yaml
