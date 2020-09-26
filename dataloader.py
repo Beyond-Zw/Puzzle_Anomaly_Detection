@@ -79,8 +79,6 @@ def load_data(config):
 
     elif config['dataset_name'] in ['coil100']:
         img_transform = transforms.Compose([
-            transforms.Resize([img_size, img_size]),
-            transforms.Grayscale(num_output_channels=1),
             transforms.ToTensor()
         ])
 
