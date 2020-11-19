@@ -4,7 +4,7 @@ This repository contains code for training and evaluating the proposed method in
 
 <img src="Images/Method.png" alt="hi" class="inline"/>
 
-### Citation
+## Citation
 If you find this useful for your research, please cite the following paper:
 ``` bash
 @misc{salehi2020puzzleae,
