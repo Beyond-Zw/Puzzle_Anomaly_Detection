@@ -4,6 +4,19 @@ This repository contains code for training and evaluating the proposed method in
 
 <img src="Images/Method.png" alt="hi" class="inline"/>
 
+## Citation
+If you find this useful for your research, please cite the following paper:
+``` bash
+@misc{salehi2020puzzleae,
+      title={Puzzle-AE: Novelty Detection in Images through Solving Puzzles}, 
+      author={Mohammadreza Salehi and Ainaz Eftekhar and Niousha Sadjadi and Mohammad Hossein Rohban and Hamid R. Rabiee},
+      year={2020},
+      eprint={2008.12959},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
+
 ### 1- Clone this repo:
 ``` bash
 git clone https://github.com/Niousha12/Puzzle_Anomaly_Detection.git
