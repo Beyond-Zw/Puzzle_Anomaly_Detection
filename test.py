@@ -85,17 +85,9 @@ def test(model, normal_class, perm_list, perm_cost, test_dataloader):
         scores = np.array(scores)
         fpr, tpr, thresholds = roc_curve(labels, scores, pos_label=0)
 
-        # fpr2, tpr2 = find_fpr(fpr, tpr, thresholds, labels, scores, 0.99, key)
-        # fpr3, tpr3 = find_fpr(fpr, tpr, thresholds, labels, scores, 0.995, key)
-
         roc_auc = auc(fpr, tpr)
         roc_auc = round(roc_auc, 4)
         AUC[key] = roc_auc
-
-        # plt.figure(figsize=(8,4))
-        # plt.plot(fpr, tpr, label =key)
-        # plt.legend(loc='lower left')
-        # plt.show()
 
     return AUC
 
@@ -137,13 +129,8 @@ def main():
     args = parser.parse_args()
     config = get_config(args.config)
 
-    # checkpoint_path = config["checkpoint_path"]
-    # n_channel = config['n_channel']
-    # normal_class = config['normal_class']
-
     n_channel = config['n_channel']
     normal_class = config["normal_class"]
-
     checkpoint_path = "outputs/{}/{}/checkpoints/".format(config['dataset_name'], normal_class)
 
     _, val_dataloader, test_dataloader = load_data(config)
